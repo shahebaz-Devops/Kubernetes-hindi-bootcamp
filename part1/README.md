@@ -7,3 +7,6 @@ cat /sys/fs/cgroup/memory/system.slice/docker-5ba642ac2146b6d7f2c538d673a480f2ab
 Kubernetes 
 =========
 kubectl run nginx --image=nginx 
+ssh node01
+crictl ps   (to check running pod container on dataplane)
+lsns -p pid (to check the container namespaces)
