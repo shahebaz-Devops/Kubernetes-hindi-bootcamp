@@ -4,11 +4,11 @@ In this video we move ahead with Kubernetes concepts
 First we will discuss Kubernetes Architecture and try to understand what happens under the hood when you run `kubectl run nginx --image=nginx`
 
 ## Create CSR
-openssl genrsa -out saiyam.key 2048
-openssl req -new -key saiyam.key -out saiyam.csr -subj "/CN=saiyam/O=group1"
+openssl genrsa -out shahebaz.key 2048
+openssl req -new -key shahebaz.key -out shahebaz.csr -subj "/CN=shahebaz/O=group1"
 
 ## Sign CSE with Kubernetes CA
-cat saiyam.csr | base64 | tr -d '\n'
+cat shahebaz.csr | base64 | tr -d '\n'
 
 ```
 apiVersion: certificates.k8s.io/v1
@@ -22,9 +22,9 @@ spec:
   - client auth
 ```
 kubectl apply -f csr.yaml
-kubectl certificate approve saiyam
+kubectl certificate approve shahebaz
 
-kubectl get csr saiyam -o jsonpath='{.status.certificate}' | base64 --decode > saiyam.crt
+kubectl get csr shahebaz -o jsonpath='{.status.certificate}' | base64 --decode > shahebaz.crt
 
 ## Role and role binding
 ```
@@ -45,7 +45,7 @@ metadata:
   namespace: default
 subjects:
 - kind: User
-  name: saiyam
+  name: shahebaz
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: Role
@@ -53,10 +53,10 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ```
 ### setup kubeconfig
-kubectl config set-credentials saiyam --client-certificate=saiyam.crt --client-key=saiyam.key
+kubectl config set-credentials shahebaz --client-certificate=shahebaz.crt --client-key=shahebaz.key
 kubectl config get-contexts
-kubectl config set-context saiyam-context --cluster=kubernetes --namespace=default --user=saiyam
-kubectl config use-context saiyam-context
+kubectl config set-context shahebaz-context --cluster=kubernetes --namespace=default --user=shahebaz
+kubectl config use-context shahebaz-context
 
 
 ### Merging multiple KubeConfig files
